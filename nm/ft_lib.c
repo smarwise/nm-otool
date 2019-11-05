@@ -44,3 +44,20 @@ uint64_t	swap_uint64(uint64_t n)
 		| ((n >> 16) & 0x0000FFFF0000FFFFULL);
 	return ((n << 32) | (n >> 32));
 }
+
+static uint8_t	*get_ppc(void)
+{
+	static u_int8_t	ppc = 0;
+
+	return (&ppc);
+}
+
+uint64_t		ppc_64(uint64_t n)
+{
+	uint8_t	ppc;
+
+	ppc = *get_ppc();
+	if (ppc != 0)
+		return (swap_uint64(n));
+	return (n);
+}

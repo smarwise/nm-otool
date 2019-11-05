@@ -27,6 +27,33 @@ void    get_info(struct symtab_command *sym, t_file *file)
     }
 }
 
+void        get_sect_info(struct load_command *lc, t_file *file)
+{
+    t_section   *section;
+    struct segment_command_64	*seg;
+	struct section_64			*sect;
+	uint32_t					i;
+
+	seg = (struct segment_command_64 *)lc;
+	sect = (struct section_64 *)((void*)seg + sizeof(*seg));
+    section = (t_section *)malloc(sizeof(t_section));
+	i = -1;
+	while (++i < ppc_64(seg->nsects))
+	{
+		if (!ft_strcmp((sect + i)->sectname, SECT_TEXT) \
+			&& !ft_strcmp((sect + i)->segname, SEG_TEXT))
+			section->text = section->index + 1;
+		else if (!ft_strcmp((sect + i)->sectname, SECT_DATA) \
+			&& !ft_strcmp((sect + i)->segname, SEG_DATA))
+			section->data = section->index + 1;
+		else if (!ft_strcmp((sect + i)->sectname, SECT_BSS) \
+			&& !ft_strcmp((sect + i)->segname, SEG_DATA))
+			section->bss = section->index + 1;
+		++(section->index);
+	}
+    file->sect = section;
+}
+
 void    handle_64(t_file *file)
 {
     int nmcmds;
@@ -40,6 +67,8 @@ void    handle_64(t_file *file)
     lc = (void*)file->ptr + sizeof(*header);
     for (i = 0; i < nmcmds; i++)
     {
+        if (lc->cmd == LC_SEGMENT_64)
+            get_sect_info(lc, file);
         if (lc->cmd == LC_SYMTAB)
         {
             sym = (struct symtab_command *)lc;

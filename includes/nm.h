@@ -7,6 +7,14 @@
 #include <ar.h>
 #include <mach-o/fat.h>
 
+typedef struct	s_section
+{
+	uint32_t	index;
+	uint32_t	text;
+	uint32_t	data;
+	uint32_t	bss;
+}				t_section;
+
 typedef struct  s_symbol64
 {
     char    *name;
@@ -25,6 +33,7 @@ typedef struct s_file
     int    nb_args;
     int     fd;
     t_symbol64 *head;
+    t_section *sect;
 }              t_file;
 
 typedef struct  s_symbol_32
@@ -36,14 +45,6 @@ typedef struct  s_symbol_32
     struct  s_symbol32 *next;
 }               t_symbol32;
 
-typedef struct	s_section
-{
-	uint32_t	index;
-	uint32_t	text;
-	uint32_t	data;
-	uint32_t	bss;
-}				t_section;
-
 void        ft_nm(t_file *file);
 int         print_err(char *str);
 void        handle_64(t_file *file);
@@ -51,3 +52,4 @@ uint32_t    swap_uint32(uint32_t n);
 uint64_t	swap_uint64(uint64_t n);
 void    print_symbols(t_file *file);
 char	*itoa_base(uint64_t value, int base);
+uint64_t		ppc_64(uint64_t n);

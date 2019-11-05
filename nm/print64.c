@@ -18,6 +18,32 @@ char        *get_add(uint64_t add)
     return (str);
 }
 
+char    get_tag(t_symbol64 *sym, t_section *section)
+{
+    char tag;
+
+    if (sym->type == N_ABS)
+		tag = sym->ext ? 'A' : 'a';
+    else if (sym->type == N_UNDF)
+        tag = 'U';
+    else if (sym->type == N_INDR)
+		tag = sym->ext ? 'I' : 'i';
+    else if (sym->type == N_SECT)
+	{
+		if (sym->sect == section->bss)
+			tag =  sym->ext ? 'B' : 'b';
+		else if (sym->sect == section->data)
+			tag = sym->ext ? 'D' : 'd';
+		else if (sym->sect == section->text)
+			tag = sym->ext ? 'T' : 't';
+		else
+			tag = sym->ext ? 'S' : 's';
+	}
+    else
+        tag = '0';
+    return (tag);
+}
+
 void    print_symbols(t_file *file)
 {
     t_symbol64 *sym;
@@ -26,6 +52,7 @@ void    print_symbols(t_file *file)
     while (sym->next)
     {
         printf("%s ", get_add(sym->value));
+        printf("%c ", get_tag(sym, file->sect));
         printf("%s %llu %llu %llu %llu\n", sym->name, sym->ext, sym->sect, sym->type, sym->value);
         sym = sym->next;
     }
