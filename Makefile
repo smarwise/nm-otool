@@ -4,7 +4,8 @@ otool = ft_otool
 
 FLAGS = gcc -Wall -Wextra -Werror
 
-nm_obj = obj/nm/main.o
+nm_obj = obj/nm/main.o obj/nm/ft_nm.o obj/nm/ft_lib.o\
+		 obj/nm/64_bit.o\
      
 otool_obj = obj/otool/main.o
 
