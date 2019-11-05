@@ -30,6 +30,10 @@ char    get_tag(t_symbol64 *sym, t_section *section)
 		tag = sym->ext ? 'I' : 'i';
     else if (sym->type == N_SECT)
 	{
+        printf("................ %s ", itoa_base(sym->sect, 16));
+        printf("%s ", itoa_base(section->bss, 16));
+        printf("%s ", itoa_base(section->data, 16));
+        printf("%s \n", itoa_base(section->text, 16));
 		if (sym->sect == section->bss)
 			tag =  sym->ext ? 'B' : 'b';
 		else if (sym->sect == section->data)
@@ -51,9 +55,9 @@ void    print_symbols(t_file *file)
     sym = file->head;
     while (sym->next)
     {
-        printf("%s ", get_add(sym->value));
+        // printf("%s ", get_add(sym->value));
         printf("%c ", get_tag(sym, file->sect));
-        printf("%s %llu %llu %llu %llu\n", sym->name, sym->ext, sym->sect, sym->type, sym->value);
+        printf("%s %llu %llu %llu\n", sym->name, sym->ext, sym->sect, sym->type);
         sym = sym->next;
     }
 }

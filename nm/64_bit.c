@@ -29,29 +29,32 @@ void    get_info(struct symtab_command *sym, t_file *file)
 
 void        get_sect_info(struct load_command *lc, t_file *file)
 {
-    t_section   *section;
     struct segment_command_64	*seg;
 	struct section_64			*sect;
 	uint32_t					i;
 
 	seg = (struct segment_command_64 *)lc;
 	sect = (struct section_64 *)((void*)seg + sizeof(*seg));
-    section = (t_section *)malloc(sizeof(t_section));
+    file->sect = (t_section *)malloc(sizeof(t_section));
 	i = -1;
 	while (++i < ppc_64(seg->nsects))
 	{
 		if (!ft_strcmp((sect + i)->sectname, SECT_TEXT) \
 			&& !ft_strcmp((sect + i)->segname, SEG_TEXT))
-			section->text = section->index + 1;
+			file->sect->text = file->sect->index;
 		else if (!ft_strcmp((sect + i)->sectname, SECT_DATA) \
 			&& !ft_strcmp((sect + i)->segname, SEG_DATA))
-			section->data = section->index + 1;
+			file->sect->data = file->sect->index;
 		else if (!ft_strcmp((sect + i)->sectname, SECT_BSS) \
 			&& !ft_strcmp((sect + i)->segname, SEG_DATA))
-			section->bss = section->index + 1;
-		++(section->index);
+			file->sect->bss = file->sect->index;
+		++(file->sect->index);
 	}
-    file->sect = section;
+    //  printf("*************************** ");
+    //     printf("%s ", itoa_base(file->sect->bss, 16));
+    //     printf("%s ", itoa_base(file->sect->data, 16));
+    //     printf("%s \n", itoa_base(file->sect->text, 16));
+    // // file->sect = section;
 }
 
 void    handle_64(t_file *file)
@@ -65,6 +68,10 @@ void    handle_64(t_file *file)
     header = (struct mach_header_64 *)file->ptr;
     nmcmds = header->ncmds;
     lc = (void*)file->ptr + sizeof(*header);
+    file->sect->bss = 0;;
+    file->sect->data = 0;
+    file->sect->text = 0;
+    file->sect->index = 0;
     for (i = 0; i < nmcmds; i++)
     {
         if (lc->cmd == LC_SEGMENT_64)
@@ -74,7 +81,6 @@ void    handle_64(t_file *file)
             sym = (struct symtab_command *)lc;
             get_info(sym, file);
             print_symbols(file);
-            break;
         }
         lc = (void *)lc + lc->cmdsize;
     }

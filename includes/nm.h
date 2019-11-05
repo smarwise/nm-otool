@@ -13,6 +13,7 @@ typedef struct	s_section
 	uint32_t	text;
 	uint32_t	data;
 	uint32_t	bss;
+    int         m;
 }				t_section;
 
 typedef struct  s_symbol64
