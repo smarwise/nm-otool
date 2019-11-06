@@ -14,28 +14,36 @@ int     map_file(t_file *file, struct stat *buf)
     return(1);
 }
 
-int          main(int argc, char **argv)
+
+int         init(char *name, int argc)
 {
-    int     n;
     struct  stat buf;
     t_file  *file;
 
-    n = 1;
     file = (t_file *)malloc(sizeof(t_file));
+    file->filename = ft_strdup(name);
+    file->nb_args = argc;
+    if (!map_file(file, &buf))
+        return (-1);
+    ft_nm(file);
+    if ((munmap(file->ptr, buf.st_size)) < 0)
+        return print_err("Error: Munmap fail\n");
+    close(file->fd);
+    return (0);
+}
+
+int          main(int argc, char **argv)
+{
+    int     n;
+
+    n = 1;
     if (argc < 2)
         ft_putendl("Error: Put binary to process");
     else
     {
         while (n < argc)
         {
-            file->filename = ft_strdup(argv[n]);
-            file->nb_args = argc;
-            if (!map_file(file, &buf))
-                return (EXIT_FAILURE);
-            ft_nm(file);
-            if ((munmap(file->ptr, buf.st_size)) < 0)
-                return print_err("Error: Munmap fail\n");
-            close(file->fd);
+            init(argv[n], argc);
             n++;
         }
     }

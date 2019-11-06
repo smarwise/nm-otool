@@ -15,8 +15,8 @@
     //     ft_putendl("def fat file");
     // else if (magic_nb == FAT_MAGIC || magic_nb == FAT_CIGAM)
     //     handle_fat(ptr, file->filename);
-    // else if (!(ft_strcmp(ft_strsub((char *)ptr, 0, 8), ARMAG)))
-        // handle_arch(ptr, file->filename);
+    else if (!(ft_strcmp(ft_strsub((char *)ptr, 0, 8), ARMAG)))
+        handle_arch(file->ptr, file->filename);
     else
     {
         if (ft_strcmp("no", file->filename) != 0)
