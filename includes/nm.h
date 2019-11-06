@@ -23,6 +23,7 @@ typedef struct  s_symbol64
     uint64_t    type;
     uint64_t    sect;
     uint64_t    ext;
+    char        tag;
     struct  s_symbol64 *next;
 }               t_symbol64;
 
@@ -56,3 +57,4 @@ char	*itoa_base(uint64_t value, int base);
 uint64_t		ppc_64(uint64_t n);
 int     ft_arraylen(t_symbol64 *sym);
 char **sort_output(char **array);
+char **remove_dupes(char **array);

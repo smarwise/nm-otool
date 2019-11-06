@@ -67,22 +67,25 @@ void    print_symbols(t_file *file)
 {
     t_symbol64 *sym;
     char    **array;
+    char    **arr;
  
-    array = ft_sort(file);
+    arr = ft_sort(file);
+    array = remove_dupes(arr);
     file->nb_args > 2 ? ft_putstr(file->filename) : ft_putstr("");
     file->nb_args > 2 ? ft_putendl(":") : ft_putstr("");
     while (*array)
     {
         sym = file->head;
-        while (sym)
+        while (sym->next)
         {
-            if (ft_strcmp(sym->name, *array) == 0)
+            if (ft_strcmp(sym->name, *array) == 0 && ((get_tag(sym, file->sect)) != '0'))
             {
                 ft_putstr(get_add(sym->value, get_tag(sym, file->sect)));
                 ft_putchar(' ');
                 ft_putchar(get_tag(sym, file->sect));
                 ft_putchar(' ');
                 ft_putendl(sym->name);
+                break;
             }
             sym = sym->next;
         }

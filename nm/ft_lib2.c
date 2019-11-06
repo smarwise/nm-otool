@@ -39,3 +39,40 @@ char **sort_output(char **array)
     }
     return (array);
 }
+
+int     check_if_exists(char *str, char **array, int i)
+{
+    int n;
+
+    n = 0;
+    while (n < i)
+    {
+        if (ft_strcmp(str, array[n]) == 0)
+            return (1);
+        n++;
+    }
+    return (0);
+}
+
+char **remove_dupes(char **array)
+{
+    int j;
+    char **new;
+    int n;
+
+    n = 0;
+    j = 0;
+    new = (char **)malloc(sizeof(arraylen(array) + 1));
+    while (array[n])
+    {
+        if (check_if_exists(array[n], new, j) == 0)
+        {
+            new[j] = ft_strdup(array[n]);
+            j++;
+        }
+        // free(array[n]);
+        n++;
+    }
+    new[j] = NULL;
+    return (new);
+}
