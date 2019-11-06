@@ -1,6 +1,6 @@
 #include "../includes/nm.h"
 
-char        *get_add(uint64_t add)
+char        *get_add(uint64_t add, char c)
 {
     char    *str;
     int     diff;
@@ -15,7 +15,7 @@ char        *get_add(uint64_t add)
     diff = 9 - len;
     str = ft_strjoin(ft_strsub(padding, 0, diff), str);
     str = ft_strjoin(zeros, str);
-    return (str);
+    return (c == 'U' ? "                " : str);
 }
 
 char    get_tag(t_symbol64 *sym, t_section *section)
@@ -30,10 +30,6 @@ char    get_tag(t_symbol64 *sym, t_section *section)
 		tag = sym->ext ? 'I' : 'i';
     else if (sym->type == N_SECT)
 	{
-        printf("................ %s ", itoa_base(sym->sect, 16));
-        printf("%s ", itoa_base(section->bss, 16));
-        printf("%s ", itoa_base(section->data, 16));
-        printf("%s \n", itoa_base(section->text, 16));
 		if (sym->sect == section->bss)
 			tag =  sym->ext ? 'B' : 'b';
 		else if (sym->sect == section->data)
@@ -48,16 +44,48 @@ char    get_tag(t_symbol64 *sym, t_section *section)
     return (tag);
 }
 
-void    print_symbols(t_file *file)
+char    **ft_sort(t_file *file)
 {
+    char **array;
     t_symbol64 *sym;
+    int n;
 
+    n = 0;
+    array = (char **)malloc(sizeof(char *) * (ft_arraylen(file->head)));
     sym = file->head;
     while (sym->next)
     {
-        // printf("%s ", get_add(sym->value));
-        printf("%c ", get_tag(sym, file->sect));
-        printf("%s %llu %llu %llu\n", sym->name, sym->ext, sym->sect, sym->type);
+        array[n] = (char *)malloc(sizeof(char) * (ft_strlen(sym->name) + 1));
+        array[n] = ft_strcpy(array[n], sym->name);
         sym = sym->next;
+        n++;
+    }
+    return (sort_output(array));
+}
+
+void    print_symbols(t_file *file)
+{
+    t_symbol64 *sym;
+    char    **array;
+    char c;
+ 
+    array = ft_sort(file);
+    while (*array)
+    {
+        sym = file->head;
+        while (sym)
+        {
+            if (ft_strcmp(sym->name, *array) == 0)
+            {
+                c = get_tag(sym, file->sect);
+                ft_putstr(get_add(sym->value, c));
+                ft_putchar(' ');
+                ft_putchar(c);
+                ft_putchar(' ');
+                ft_putendl(sym->name);
+            }
+            sym = sym->next;
+        }
+        array++;
     }
 }

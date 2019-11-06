@@ -54,3 +54,5 @@ uint64_t	swap_uint64(uint64_t n);
 void    print_symbols(t_file *file);
 char	*itoa_base(uint64_t value, int base);
 uint64_t		ppc_64(uint64_t n);
+int     ft_arraylen(t_symbol64 *sym);
+char **sort_output(char **array);
