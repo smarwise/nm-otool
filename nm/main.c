@@ -20,15 +20,20 @@ int         init(char *name, int argc)
     struct  stat buf;
     t_file  *file;
 
-    file = (t_file *)malloc(sizeof(t_file));
-    file->filename = ft_strdup(name);
-    file->nb_args = argc;
-    if (!map_file(file, &buf))
-        return (-1);
-    ft_nm(file);
-    if ((munmap(file->ptr, buf.st_size)) < 0)
-        return print_err("Error: Munmap fail\n");
-    close(file->fd);
+    if (ft_strcmp("->", name) != 0)
+    {
+        file = (t_file *)malloc(sizeof(t_file));
+        file->filename = ft_strdup(name);
+        file->nb_args = argc;
+        if (!map_file(file, &buf))
+            return (-1);
+        ft_nm(file);
+        if ((munmap(file->ptr, buf.st_size)) < 0)
+            return print_err("Error: Munmap fail\n");
+        close(file->fd);
+    }
+    else
+        return (2);
     return (0);
 }
 
@@ -43,7 +48,8 @@ int          main(int argc, char **argv)
     {
         while (n < argc)
         {
-            init(argv[n], argc);
+            if (init(argv[n], argc) == 2)
+                n++;
             n++;
         }
     }

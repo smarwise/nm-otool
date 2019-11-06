@@ -25,4 +25,6 @@ void        handle_64(void *ptr);
 void handle_32(void *ptr);
 void     printer(int i, uint64_t addr, char *data);
 void    handle_arch(void *ptr, char * name);
+ void    handle_fat(void *ptr, char *str);
+ uint32_t	swap_uint32(uint32_t n);
 #endif

@@ -59,7 +59,7 @@ void     printer(int i, uint64_t addr, char *data)
         if (i != 0)
             ft_putchar('\n');
         print_add(addr + i);
-        ft_putstr("        ");
+        ft_putstr("\t");
     }
     if (ft_strlen(to_hex(data[i])) == 1)
         ft_putstr("0");
