@@ -1,3 +1,6 @@
+#ifndef NM_H
+#define NM_H
+
 #include "../libft/libft.h"
 #include <fcntl.h>
 #include <mach-o/loader.h>
@@ -69,3 +72,5 @@ int         init(char *name, int argc);
 void    handle_arch(void *ptr, char * name);
  void       nm(void *ptr, char *name);
  void    handle_fat(void *ptr, char *str);
+
+ #endif

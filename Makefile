@@ -9,7 +9,8 @@ nm_obj = obj/nm/main.o obj/nm/ft_nm.o obj/nm/ft_lib.o\
 		 obj/nm/32bit.o obj/nm/print32.o obj/nm/archive.o\
 		 obj/nm/fat.o\
      
-otool_obj = obj/otool/main.o
+otool_obj = obj/otool/main.o obj/otool/ft_otool.o obj/otool/64bit.o\
+			obj/otool/ft_lib.o obj/otool/32bit.o obj/otool/archive.o\
 
 $(nm) : $(nm_obj)
 	make -C libft
