@@ -45,7 +45,7 @@ int     check_if_exists(char *str, char **array, int i)
     int n;
 
     n = 0;
-    while (n < i)
+    while (n != i)
     {
         if (ft_strcmp(str, array[n]) == 0)
             return (1);
@@ -54,25 +54,28 @@ int     check_if_exists(char *str, char **array, int i)
     return (0);
 }
 
-char **remove_dupes(char **array)
+char        **remove_dupes(char **arr)
 {
-    int j;
-    char **new;
-    int n;
+    int i, j = 1, k = 1;
+    int n_items;
 
-    n = 0;
-    j = 0;
-    new = (char **)malloc(sizeof(arraylen(array) + 1));
-    while (array[n])
+    n_items = arraylen(arr);
+    i = 0;
+    while (i < n_items)
     {
-        if (check_if_exists(array[n], new, j) == 0)
+        j = i + 1;
+        k = j;
+        while (j < n_items)
         {
-            new[j] = ft_strdup(array[n]);
+            if (strcmp(arr[i], arr[j])) 
+            {
+                arr[k] = arr[j];
+                k++;
+            }
             j++;
         }
-        // free(array[n]);
-        n++;
+        n_items -= j - k;
+        i++;
     }
-    new[j] = NULL;
-    return (new);
+    return arr;
 }

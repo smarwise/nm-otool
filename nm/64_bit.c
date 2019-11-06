@@ -15,7 +15,7 @@ void    get_info(struct symtab_command *sym, t_file *file)
     for (i = 0; i < sym->nsyms; i++)
     {
         str = strtable + array[i].n_un.n_strx;
-        if (ft_strcmp(str, "") != 0)
+        if (ft_strlen(str) > 0)
         {
             symbols->type = array[i].n_type & N_TYPE;
             symbols->ext = array[i].n_type & N_EXT;
