@@ -28,6 +28,16 @@ typedef struct  s_symbol64
 }               t_symbol64;
 
 
+typedef struct  s_symbol_32
+{
+    char    *name;
+    uint32_t    value;
+    uint32_t    type;
+    uint32_t    sect;
+    uint64_t    ext;
+    struct  s_symbol_32 *next;
+}               t_symbol32;
+
 typedef struct s_file
 {
     void *ptr;
@@ -35,17 +45,10 @@ typedef struct s_file
     int    nb_args;
     int     fd;
     t_symbol64 *head;
+    t_symbol32 *head32;
     t_section *sect;
 }              t_file;
 
-typedef struct  s_symbol_32
-{
-    char    *name;
-    uint32_t    value;
-    uint32_t    type;
-    uint32_t    sect;
-    struct  s_symbol32 *next;
-}               t_symbol32;
 
 void        ft_nm(t_file *file);
 int         print_err(char *str);
@@ -58,3 +61,7 @@ uint64_t		ppc_64(uint64_t n);
 int     ft_arraylen(t_symbol64 *sym);
 char **sort_output(char **array);
 char **remove_dupes(char **array);
+void        handle_32(t_file *file);
+void    print_symbols32(t_file *file);
+char        *get_add(uint64_t add, char c);
+int     ft_arraylen32(t_symbol32 *sym);

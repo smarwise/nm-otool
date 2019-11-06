@@ -9,8 +9,8 @@
     magic_nb = *(uint32_t *)ptr;
     if (magic_nb == MH_MAGIC_64)
         handle_64(file);
-    // else if (magic_nb == MH_MAGIC)
-    //     handle_32(ptr);
+    else if (magic_nb == MH_MAGIC)
+        handle_32(file);
     // else if (magic_nb == FAT_MAGIC_64 || magic_nb == FAT_CIGAM_64)
     //     ft_putendl("def fat file");
     // else if (magic_nb == FAT_MAGIC || magic_nb == FAT_CIGAM)

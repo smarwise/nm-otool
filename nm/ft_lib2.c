@@ -13,6 +13,19 @@ int     ft_arraylen(t_symbol64 *sym)
     return (len);
 }
 
+int     ft_arraylen32(t_symbol32 *sym)
+{
+    int len;
+
+    len = 0;
+    while (sym->next)
+    {
+        sym = sym->next;
+        len++;
+    }
+    return (len);
+}
+
 char **sort_output(char **array)
 {
     char *temp;
