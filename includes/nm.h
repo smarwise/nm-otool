@@ -67,3 +67,5 @@ char        *get_add(uint64_t add, char c);
 int     ft_arraylen32(t_symbol32 *sym);
 int         init(char *name, int argc);
 void    handle_arch(void *ptr, char * name);
+ void       nm(void *ptr, char *name);
+ void    handle_fat(void *ptr, char *str);

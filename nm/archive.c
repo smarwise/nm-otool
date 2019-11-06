@@ -23,10 +23,10 @@ void    print_filename(char *lib_name, char *file_name)
         handle_64(file);
     else if (magic_nb == MH_MAGIC)
         handle_32(file);
-    // else if (magic_nb == FAT_MAGIC_64 || magic_nb == FAT_CIGAM_64)
-    //     ft_putendl("def fat file");
-    // else if (magic_nb == FAT_MAGIC || magic_nb == FAT_CIGAM)
-    //     handle_fat(ptr, file->filename);
+    else if (magic_nb == FAT_MAGIC_64 || magic_nb == FAT_CIGAM_64)
+        ft_putendl("def fat file");
+    else if (magic_nb == FAT_MAGIC || magic_nb == FAT_CIGAM)
+        handle_fat(ptr, file->filename);
     else if (!(ft_strcmp(ft_strsub((char *)ptr, 0, 8), ARMAG)))
        handle_arch(file->ptr, file->filename);
     else

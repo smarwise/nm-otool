@@ -7,6 +7,7 @@ FLAGS = gcc -Wall -Wextra -Werror
 nm_obj = obj/nm/main.o obj/nm/ft_nm.o obj/nm/ft_lib.o\
 		 obj/nm/64_bit.o obj/nm/print64.o obj/nm/ft_lib2.o\
 		 obj/nm/32bit.o obj/nm/print32.o obj/nm/archive.o\
+		 obj/nm/fat.o\
      
 otool_obj = obj/otool/main.o
 
