@@ -51,15 +51,15 @@ char    **ft_sort(t_file *file)
     int n;
 
     n = 0;
-    array = (char **)malloc(sizeof(char *) * (ft_arraylen(file->head)));
+    array = (char **)malloc(sizeof(char *) * (ft_arraylen(file->head) + 1));
     sym = file->head;
     while (sym->next)
     {
-        array[n] = (char *)malloc(sizeof(char) * (ft_strlen(sym->name) + 1));
-        array[n] = ft_strcpy(array[n], sym->name);
+        array[n] = ft_strdup(sym->name);
         sym = sym->next;
         n++;
     }
+    array[n] = NULL;
     return (sort_output(array));
 }
 
@@ -67,9 +67,10 @@ void    print_symbols(t_file *file)
 {
     t_symbol64 *sym;
     char    **array;
-    char c;
  
     array = ft_sort(file);
+    file->nb_args > 2 ? ft_putstr(file->filename) : ft_putstr("");
+    file->nb_args > 2 ? ft_putendl(":") : ft_putstr("");
     while (*array)
     {
         sym = file->head;
@@ -77,10 +78,9 @@ void    print_symbols(t_file *file)
         {
             if (ft_strcmp(sym->name, *array) == 0)
             {
-                c = get_tag(sym, file->sect);
-                ft_putstr(get_add(sym->value, c));
+                ft_putstr(get_add(sym->value, get_tag(sym, file->sect)));
                 ft_putchar(' ');
-                ft_putchar(c);
+                ft_putchar(get_tag(sym, file->sect));
                 ft_putchar(' ');
                 ft_putendl(sym->name);
             }

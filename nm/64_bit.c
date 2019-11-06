@@ -63,7 +63,7 @@ void    handle_64(t_file *file)
     nmcmds = header->ncmds;
     lc = (void*)file->ptr + sizeof(*header);
     file->sect = (t_section *)malloc(sizeof(t_section));
-    file->sect->bss = 0;;
+    file->sect->bss = 0;
     file->sect->data = 0;
     file->sect->text = 0;
     file->sect->index = 0;
