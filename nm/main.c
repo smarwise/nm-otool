@@ -25,6 +25,7 @@ int         init(char *name, int argc)
         file = (t_file *)malloc(sizeof(t_file));
         file->filename = ft_strdup(name);
         file->nb_args = argc;
+        file->n = 0;
         if (!map_file(file, &buf))
             return (-1);
         ft_nm(file);

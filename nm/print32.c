@@ -77,7 +77,7 @@ void    print_symbols32(t_file *file)
         {
             if (ft_strcmp(sym->name, *array) == 0 && ((get_tag32(sym, file->sect)) != '0'))
             {
-                ft_putstr(get_add32(sym->value, get_tag32(sym, file->sect)));
+                ft_putstr(get_add32((sym->value), get_tag32(sym, file->sect)));
                 ft_putchar(' ');
                 ft_putchar(get_tag32(sym, file->sect));
                 ft_putchar(' ');

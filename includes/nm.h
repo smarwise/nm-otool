@@ -47,12 +47,13 @@ typedef struct s_file
     char *filename;
     int    nb_args;
     int     fd;
+    int     n;
     t_symbol64 *head;
     t_symbol32 *head32;
     t_section *sect;
 }              t_file;
 
-
+ void    handle_fat64(void *ptr, char *str, int args);
 void        ft_nm(t_file *file);
 int         print_err(char *str);
 void        handle_64(t_file *file);
@@ -69,8 +70,8 @@ void    print_symbols32(t_file *file);
 char        *get_add(uint64_t add, char c);
 int     ft_arraylen32(t_symbol32 *sym);
 int         init(char *name, int argc);
-void    handle_arch(void *ptr, char * name);
- void       nm(void *ptr, char *name);
- void    handle_fat(void *ptr, char *str);
+void       nm(void *ptr, char *name, int args);
+void    handle_fat(void *ptr, char *str, int args);
+ void    handle_arch(void *ptr, char * name, int args);
 
  #endif
