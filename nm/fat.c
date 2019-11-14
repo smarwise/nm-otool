@@ -32,19 +32,21 @@
      uint32_t i;
      struct fat_header *header;
      struct fat_arch *arch;
+     struct fat_arch *arch2;
 
     i = 0;
     header = (struct fat_header *)ptr;
     arch = (struct fat_arch *)(header + 1);
+    arch2 = arch;
     n = swap_uint32(header->nfat_arch);
     while (i < n)
     {
-        if (swap_uint32(arch[i].cputype) == CPU_TYPE_X86_64) 
+        if (swap_uint32(arch->cputype) == CPU_TYPE_X86_64) 
         {
-            nm(ptr + swap_uint32(arch[i].offset), str, args);
+            nm(ptr + swap_uint32(arch->offset), str, args);
             break;
         }
-        ft_putnbr(swap_uint32(arch[i].offset));
+        arch = (struct fat_arch*)((void*)arch + sizeof(struct fat_arch));
         i++;
     }
  }
