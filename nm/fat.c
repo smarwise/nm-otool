@@ -39,15 +39,12 @@
     n = swap_uint32(header->nfat_arch);
     while (i < n)
     {
-        if (i != 0)
-            arch = (struct fat_arch *)ptr;
-        if ((swap_uint32(arch->cputype) == CPU_TYPE_X86_64)\
-         || (swap_uint32(arch->cputype) == CPU_TYPE_I386 ) )
+        if (swap_uint32(arch[i].cputype) == CPU_TYPE_X86_64) 
         {
-            nm(ptr + swap_uint32(arch->offset), str, args);
-            // break;
+            nm(ptr + swap_uint32(arch[i].offset), str, args);
+            break;
         }
-        ptr = ptr + swap_uint32(arch->size);
+        ft_putnbr(swap_uint32(arch[i].offset));
         i++;
     }
  }

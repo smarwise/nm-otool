@@ -1,6 +1,6 @@
 #include "../includes/nm.h"
 
-char        *get_add32(uint64_t add, char c)
+char        *get_add32(uint32_t add, char c)
 {
     char    *str;
     int     diff;

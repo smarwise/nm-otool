@@ -35,8 +35,8 @@ void    print_filename(char *lib_name, char *file_name)
         handle_64(file);
     else if (magic_nb == MH_MAGIC)
         handle_32(file);
-    // else if (magic_nb == FAT_MAGIC_64 || magic_nb == FAT_CIGAM_64)
-        // handle_fat64(ptr, file->filename, args);
+    else if (magic_nb == FAT_MAGIC_64 || magic_nb == FAT_CIGAM_64)
+        handle_fat64(ptr, file->filename, args);
     else if (magic_nb == FAT_MAGIC || magic_nb == FAT_CIGAM)
         handle_fat(ptr, file->filename, args);
     else if (!(ft_strcmp(ft_strsub((char *)ptr, 0, 8), ARMAG)))
