@@ -67,7 +67,8 @@ void    print_symbols32(t_file *file)
     char    **arr;
  
     arr = ft_sort32(file);
-    array = remove_dupes(arr);
+    array = arr;
+    // array = remove_dupes(arr);
     file->nb_args > 2 ? ft_putstr(file->filename) : ft_putstr("");
     file->nb_args > 2 ? ft_putendl(":") : ft_putstr("");
     while (*array)

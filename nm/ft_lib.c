@@ -30,34 +30,10 @@ char	*itoa_base(uint64_t value, int base)
     return (ft_strcmp(str, "") == 0 ? ft_itoa_base(value, base) : str);
 }
 
-uint32_t	swap_uint32(uint32_t n)
+uint32_t	swap(uint32_t n)
 {
-	n = ((n << 8) & 0xFF00FF00) | ((n >> 8) & 0xFF00FF);
-	return ((n << 16) | (n >> 16));
-}
-
-uint64_t	swap_uint64(uint64_t n)
-{
-	n = ((n << 8) & 0xFF00FF00FF00FF00ULL) \
-		| ((n >> 8) & 0x00FF00FF00FF00FFULL);
-	n = ((n << 16) & 0xFFFF0000FFFF0000ULL) \
-		| ((n >> 16) & 0x0000FFFF0000FFFFULL);
-	return ((n << 32) | (n >> 32));
-}
-
-static uint8_t	*get_ppc(void)
-{
-	static u_int8_t	ppc = 0;
-
-	return (&ppc);
-}
-
-uint64_t		ppc_64(uint64_t n)
-{
-	uint8_t	ppc;
-
-	ppc = *get_ppc();
-	if (ppc != 0)
-		return (swap_uint64(n));
-	return (n);
+	return ((n >> 24) & 0xff) |\
+	((n << 8) & 0xff0000) |\
+	((n >> 8) & 0xff00) |\
+	((n << 24) & 0xff000000);
 }

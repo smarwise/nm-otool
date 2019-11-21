@@ -57,11 +57,9 @@ typedef struct s_file
 void        ft_nm(t_file *file);
 int         print_err(char *str);
 void        handle_64(t_file *file);
-uint32_t    swap_uint32(uint32_t n);
-uint64_t	swap_uint64(uint64_t n);
+uint32_t    swap(uint32_t n);
 void    print_symbols(t_file *file);
 char	*itoa_base(uint64_t value, int base);
-uint64_t		ppc_64(uint64_t n);
 int     ft_arraylen(t_symbol64 *sym);
 char **sort_output(char **array);
 char **remove_dupes(char **array);

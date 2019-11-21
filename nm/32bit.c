@@ -39,7 +39,7 @@ void        get_sect_info32(struct load_command *lc, t_file *file)
 	seg = (struct segment_command *)lc;
 	sect = (struct section *)((void*)seg + sizeof(*seg));
 	i = -1;
-	while (++i < ppc_64(seg->nsects))
+	while (++i < (seg->nsects))
 	{
 		if (!ft_strcmp((sect + i)->sectname, SECT_TEXT) \
 			&& !ft_strcmp((sect + i)->segname, SEG_TEXT))
