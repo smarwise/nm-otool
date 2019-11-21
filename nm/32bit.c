@@ -1,28 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   32bit.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smarwise <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/21 13:37:51 by smarwise          #+#    #+#             */
+/*   Updated: 2019/11/21 13:37:55 by smarwise         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/nm.h"
 
-void    get_info32(struct symtab_command *sym, t_file *file)
+void        get_info32(struct symtab_command *sym, t_file *file)
 {
-    uint64_t i;
-    struct nlist *array;
-    char *strtable;
-    t_symbol32 *symbols;
-    char *str;
+    struct nlist            *array;
+    char                    *strtable;
+    t_symbol32              *symbols;
 
     array = file->ptr + sym->symoff;
     strtable = file->ptr + sym->stroff;
     symbols = (t_symbol32*)malloc(sizeof(t_symbol32));
     file->head32 = symbols;
-    for (i = 0; i < sym->nsyms; i++)
+    for (file->i = 0; file->i < sym->nsyms; file->i++)
     {
-        str = strtable + array[i].n_un.n_strx;
-        if (ft_strlen(str) > 0)
+        file->str = strtable + array[file->i].n_un.n_strx;
+        if (ft_strlen(file->str) > 0)
         {
-            symbols->type = array[i].n_type & N_TYPE;
-            symbols->ext = array[i].n_type & N_EXT;
-            symbols->sect = array[i].n_sect;
-            symbols->name = ft_strdup(str);
-            symbols->value = array[i].n_value;
-            if (i + 1 == sym->nsyms)
+            symbols->type = array[file->i].n_type & N_TYPE;
+            symbols->ext = array[file->i].n_type & N_EXT;
+            symbols->sect = array[file->i].n_sect;
+            symbols->name = ft_strdup(file->str);
+            symbols->value = array[file->i].n_value;
+            if (file->i + 1 == sym->nsyms)
                 symbols->next = NULL;
             symbols->next = (t_symbol32 *)malloc(sizeof(t_symbol32));
             symbols = symbols->next;
@@ -30,11 +40,11 @@ void    get_info32(struct symtab_command *sym, t_file *file)
     }
 }
 
-void        get_sect_info32(struct load_command *lc, t_file *file)
+void       get_sect_info32(struct load_command *lc, t_file *file)
 {
-    struct segment_command	*seg;
-	struct section			*sect;
-	uint32_t					i;
+    struct segment_command	    *seg;
+	struct section			    *sect;
+	uint32_t				    i;
 
 	seg = (struct segment_command *)lc;
 	sect = (struct section *)((void*)seg + sizeof(*seg));
@@ -56,19 +66,16 @@ void        get_sect_info32(struct load_command *lc, t_file *file)
 
 void    handle_32(t_file *file)
 {
-    int nmcmds;
-    struct mach_header *header;
-    struct load_command *lc;
-    struct symtab_command *sym;
-    int     i;
+    int                         nmcmds;
+    struct mach_header          *header;
+    struct load_command         *lc;
+    struct symtab_command       *sym;
+    int                         i;
 
     header = (struct mach_header *)file->ptr;
     nmcmds = header->ncmds;
     lc = (void*)file->ptr + sizeof(*header);
     file->sect = (t_section *)malloc(sizeof(t_section));
-    file->sect->bss = 0;
-    file->sect->data = 0;
-    file->sect->text = 0;
     file->sect->index = 0;
     for (i = 0; i < nmcmds; i++)
     {

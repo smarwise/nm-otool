@@ -12,7 +12,7 @@
 
 #include "../includes/nm.h"
 
-void    print_filename(char *lib_name, char *file_name)
+void        print_filename(char *lib_name, char *file_name)
 {
     ft_putstr("\n");
     ft_putstr(lib_name);
@@ -23,8 +23,8 @@ void    print_filename(char *lib_name, char *file_name)
 
  void       nm(void *ptr, char *name, int args)
  {
-    uint32_t     magic_nb;
-    t_file *file;
+    uint32_t            magic_nb;
+    t_file              *file;
  
     file = (t_file*)malloc(sizeof(t_file));
     file->filename = ft_strdup(name);
@@ -47,12 +47,12 @@ void    print_filename(char *lib_name, char *file_name)
 
 void    handle_arch(void *ptr, char * name, int args)
 {
-  struct ar_hdr *file;
-  char *file_member;
-  int size;
-  void *tmp;
-  int diff;
-  int temp;
+  struct ar_hdr         *file;
+  char                  *file_member;
+  int                   size;
+  void                  *tmp;
+  int                   diff;
+  int                   temp;
 
   file = (struct ar_hdr*)(ptr + SARMAG);
   while (ft_strlen(file->ar_size) > 0)

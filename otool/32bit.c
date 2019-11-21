@@ -1,10 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   32bit.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smarwise <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/21 13:42:19 by smarwise          #+#    #+#             */
+/*   Updated: 2019/11/21 13:42:20 by smarwise         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/otool.h"
 
 void    print_sect32(struct section *section, void *ptr)
-{
-    char *data;
+{   
+    char                    *data;
+    uint64_t                i;
     
-    uint64_t i = 0;
+    i = 0;
     ft_putendl("Contents of (__TEXT,__text) section");
     data = ptr+section->offset;
     while (i < section->size)
@@ -19,11 +32,11 @@ void    print_sect32(struct section *section, void *ptr)
 void    handle_sects32(struct load_command *lc, void *ptr)
 {
     
-    struct segment_command *seg;
-    struct section *section;
-    int nb_sect;
-    int i;
-    void *section_addr;
+    struct segment_command  *seg;
+    struct section          *section;
+    int                     nb_sect;
+    int                     i;
+    void                    *section_addr;
     (void)ptr;
 
     i = 0;
@@ -32,7 +45,8 @@ void    handle_sects32(struct load_command *lc, void *ptr)
     section = (void *)seg + sizeof(*seg);
     while (i < nb_sect)
     {
-        if (ft_strcmp(section->sectname, "__text") == 0 && ft_strcmp(section->segname, "__TEXT") == 0)
+        if (ft_strcmp(section->sectname, "__text") == 0\
+        && ft_strcmp(section->segname, "__TEXT") == 0)
         {
             section_addr = (void *)ft_itoa(section->addr);
             print_sect32(section, ptr);
@@ -44,10 +58,10 @@ void    handle_sects32(struct load_command *lc, void *ptr)
 
 void handle_32(void *ptr)
 {
-    int nmcmds;
-    struct mach_header *header;
-    struct load_command *lc;
-    int     i;
+    int                     nmcmds;
+    struct mach_header      *header;
+    struct load_command     *lc;
+    int                     i;
 
     header = (struct mach_header *)ptr;
     nmcmds = header->ncmds;
@@ -57,7 +71,6 @@ void handle_32(void *ptr)
         if (lc->cmd == LC_SEGMENT)
         {
             handle_sects32(lc, ptr);
-            // break;
         }
         lc = (void *)lc + lc->cmdsize;
     }

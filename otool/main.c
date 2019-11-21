@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smarwise <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/21 13:43:18 by smarwise          #+#    #+#             */
+/*   Updated: 2019/11/21 13:43:19 by smarwise         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/otool.h"
 
 int     map_file_to_memory(char *str, struct  stat *buf, int *fd, char **ptr)
@@ -12,22 +24,14 @@ int     map_file_to_memory(char *str, struct  stat *buf, int *fd, char **ptr)
         ft_putstr("Error: Fstat fail\n");
         return (0);
     }
-    if ((*ptr = mmap(0, buf->st_size, PROT_READ, MAP_PRIVATE, *fd, 0)) == MAP_FAILED)
+    if ((*ptr = mmap(0, buf->st_size, PROT_READ,
+    MAP_PRIVATE, *fd, 0)) == MAP_FAILED)
     {
         ft_putstr("Error: Mmap fail\n");
         return (0);
     }
     return(1);
 }
-
-// void         print(char *str)
-// {
-//     if (ft_strstr(str, ".o") || ft_strstr(str, ".so"))
-//     {
-//         ft_putstr(str);
-//         ft_putendl(":");
-//     }
-// }
 
 int          print_error(char *str)
 {

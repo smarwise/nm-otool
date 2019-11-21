@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   64bit.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smarwise <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/21 13:42:29 by smarwise          #+#    #+#             */
+/*   Updated: 2019/11/21 13:42:31 by smarwise         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/otool.h"
 
 char	*itoa_base(uint64_t value, int base)
 {
-	long	nb;
-	char	*str;
-	int		len;
+	long	        nb;
+	char	        *str;
+	int		        len;
 
     len = 9;
 	nb = (long)value;
@@ -26,10 +38,10 @@ char	*itoa_base(uint64_t value, int base)
 
 void        print_add(uint64_t add)
 {
-    char    *str;
-    int     diff;
-    int     len;
-    char    *padding;
+    char            *str;
+    int             diff;
+    int             len;
+    char            *padding;
 
     padding = "000000000";
     ft_putstr("0000000");
@@ -45,7 +57,7 @@ void        print_add(uint64_t add)
 
 char     *to_hex(unsigned char c)
 {
-    int num;
+    int             num;
 
     num = c;
     return (ft_itoa_base(num, 16));
@@ -53,7 +65,6 @@ char     *to_hex(unsigned char c)
 
 void     printer(int i, uint64_t addr, char *data)
 {
-    
     if (i % 16 == 0)
     {
         if (i != 0)
@@ -71,7 +82,7 @@ void     printer(int i, uint64_t addr, char *data)
 
 void    print_sect(struct section_64 *section, void *ptr)
 {
-    char *data;
+    char        *data;
 
     uint64_t i = 0;
     ft_putendl("Contents of (__TEXT,__text) section");
@@ -87,12 +98,11 @@ void    print_sect(struct section_64 *section, void *ptr)
 
 void    handle_sects(struct load_command *lc, void *ptr)
 {
-    
-    struct segment_command_64 *seg;
-    struct section_64 *section;
-    int nb_sect;
-    int i;
-    void *section_addr;
+    struct segment_command_64   *seg;
+    struct section_64           *section;
+    int                         nb_sect;
+    int                         i;
+    void                        *section_addr;
 
     i = 0;
     seg = (struct segment_command_64 *)((void *)lc);
@@ -112,10 +122,10 @@ void    handle_sects(struct load_command *lc, void *ptr)
 
 void handle_64(void *ptr)
 {
-    int nmcmds;
-    struct mach_header_64 *header;
-    struct load_command *lc;
-    int     i;
+    int                         nmcmds;
+    struct mach_header_64       *header;
+    struct load_command         *lc;
+    int                         i;
 
     header = (struct mach_header_64 *)ptr;
     nmcmds = header->ncmds;
@@ -125,7 +135,6 @@ void handle_64(void *ptr)
         if (lc->cmd == LC_SEGMENT_64)
         {
             handle_sects(lc, ptr);
-            // break;
         }
         lc = (void *)lc + lc->cmdsize;
     }

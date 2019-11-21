@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print64.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smarwise <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/21 13:41:55 by smarwise          #+#    #+#             */
+/*   Updated: 2019/11/21 13:41:57 by smarwise         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/nm.h"
 
 char        *get_add(uint64_t add, char c)
@@ -20,7 +32,7 @@ char        *get_add(uint64_t add, char c)
 
 char    get_tag(t_symbol64 *sym, t_section *section)
 {
-    char tag;
+    char     tag;
 
     if (sym->type == N_ABS)
 		tag = sym->ext ? 'A' : 'a';
@@ -46,9 +58,9 @@ char    get_tag(t_symbol64 *sym, t_section *section)
 
 char    **ft_sort(t_file *file)
 {
-    char **array;
-    t_symbol64 *sym;
-    int n;
+    char        **array;
+    t_symbol64  *sym;
+    int         n;
 
     n = 0;
     array = (char **)malloc(sizeof(char *) * (ft_arraylen(file->head) + 1));
@@ -65,13 +77,10 @@ char    **ft_sort(t_file *file)
 
 void    print_symbols(t_file *file)
 {
-    t_symbol64 *sym;
-    char    **array;
-    char    **arr;
+    t_symbol64  *sym;
+    char        **array;
  
-    arr = ft_sort(file);
-    array = arr;
-    // array = remove_dupes(arr);
+    array = ft_sort(file);
     file->nb_args > 2 ? ft_putstr(file->filename) : ft_putstr("");
     file->nb_args > 2 ? ft_putendl(":") : ft_putstr("");
     while (*array)

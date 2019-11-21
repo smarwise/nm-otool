@@ -11,20 +11,28 @@
 #include <stdio.h>
 #include <mach-o/fat.h>
 
-typedef struct s_file
+typedef struct  s_file
 {
-    void *ptr;
-    char *filename;
-    int    nb_args;
-    int     fd;
-}              t_file;
+    void        *ptr;
+    char        *filename;
+    int         nb_args;
+    int         fd;
+}               t_file;
 
-int     print_err(char *str);
-void        ft_otool(void *ptr, char *str);
-void        handle_64(void *ptr);
-void handle_32(void *ptr);
-void     printer(int i, uint64_t addr, char *data);
-void    handle_arch(void *ptr, char * name);
- void    handle_fat(void *ptr, char *str);
- uint32_t	swap_uint32(uint32_t n);
+typedef struct  s_ints
+{
+    int         size;
+    int         diff;
+    int         temp;
+}               t_ints;
+
+int             print_err(char *str);
+void            ft_otool(void *ptr, char *str);
+void            handle_64(void *ptr);
+void            handle_32(void *ptr);
+void            printer(int i, uint64_t addr, char *data);
+void            handle_arch(void *ptr, char * name);
+void            handle_fat(void *ptr);
+uint32_t        swap(uint32_t n);
+
 #endif
