@@ -25,7 +25,7 @@ $(NAME): $(OFILES)
 all: $(NAME)
 
 $(OFILES): %.o: %.c libft.h
-	gcc -c $*.c -o $@
+	gcc -g -c $*.c -o $@
 
 clean:
 	rm -f $(OFILES)

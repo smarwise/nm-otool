@@ -30,6 +30,7 @@ void        print_filename(char *lib_name, char *file_name)
     file->filename = ft_strdup(name);
     file->ptr = ptr;
     file->nb_args = args;
+    file->part_of_lib = 1;
     magic_nb = *(uint32_t *)ptr;
     if (magic_nb == MH_MAGIC_64)
         handle_64(file);

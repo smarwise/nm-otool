@@ -23,7 +23,7 @@ int					ft_strcmp(const char *s1, const char *s2)
 	n = 0;
 	str1 = (unsigned char *)s1;
 	str2 = (unsigned char *)s2;
-	if (s1 == NULL || s2 == NULL)
+	if (s1 == NULL || s2 == NULL || !s1 || !s2)
 		return (-1);
 	while (str1[i] && str2[n] && str1[i] == str2[n])
 	{

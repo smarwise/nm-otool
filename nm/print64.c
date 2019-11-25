@@ -60,10 +60,10 @@ char    **ft_sort(t_file *file)
 {
     char        **array;
     t_symbol64  *sym;
-    int         n;
+    uint64_t    n;
 
     n = 0;
-    array = (char **)malloc(sizeof(char *) * (ft_arraylen(file->head) + 1));
+    array = (char **)malloc(sizeof(char *) * (file->nbsyms + 1));
     sym = file->head;
     while (sym->next)
     {
@@ -75,30 +75,77 @@ char    **ft_sort(t_file *file)
     return (sort_output(array));
 }
 
-void    print_symbols(t_file *file)
+int     in_array(char **array, char *str)
 {
-    t_symbol64  *sym;
-    char        **array;
- 
-    array = ft_sort(file);
-    file->nb_args > 2 ? ft_putstr(file->filename) : ft_putstr("");
-    file->nb_args > 2 ? ft_putendl(":") : ft_putstr("");
-    while (*array)
+    int n;
+    int len;
+
+    n = 0;
+    len = arraylen(array);
+    while (n <len)
     {
-        sym = file->head;
-        while (sym->next)
+        if (ft_strcmp(array[n], str) == 0)
+            return (1);
+        n++;
+    }
+    array = arraypush(array, str);
+    return (0);
+}
+
+void    print_syms(char ***prev, t_symbol64 *sym, t_section *sect, char *str)
+{
+    int b;
+    char tag;
+
+    while (sym->next)
+    {
+        tag = get_tag(sym, sect);
+        b = 0;
+        if (ft_strcmp(sym->name, str) == 0 && tag != '0')
         {
-            if (ft_strcmp(sym->name, *array) == 0 && ((get_tag(sym, file->sect)) != '0'))
+            if (in_array(*prev, get_add(sym->value, tag)) == 1)
+                b = 1;
+            if (b == 0 || (b == 1 && tag == 'U'))
             {
-                ft_putstr(get_add(sym->value, get_tag(sym, file->sect)));
+                ft_putstr(get_add(sym->value, tag));
                 ft_putchar(' ');
-                ft_putchar(get_tag(sym, file->sect));
+                ft_putchar(tag);
                 ft_putchar(' ');
                 ft_putendl(sym->name);
                 break;
             }
-            sym = sym->next;
         }
+        sym = sym->next;
+    }
+}
+
+void    print_name(t_file *file)
+{
+    if (file->nb_args > 2)
+    {
+        if (file->part_of_lib == 0)
+        {
+            ft_putchar('\n');
+            ft_putstr(file->filename);
+            ft_putendl(":");
+        }
+    }
+}
+
+void    print_symbols(t_file *file)
+{ 
+    t_symbol64  *sym;
+    char        **array;
+    char **arr;
+
+    arr = (char**)malloc(sizeof(char *) * (file->nbsyms + 1));
+    arr[0] = NULL;
+    array = ft_sort(file);
+    print_name(file);
+    while (*array)
+    {
+        sym = file->head;
+        print_syms(&arr, sym, file->sect, *array);
         array++;
     }
 }

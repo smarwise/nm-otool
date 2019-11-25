@@ -53,6 +53,8 @@ typedef struct          s_file
     t_symbol64          *head;
     t_symbol32          *head32;
     t_section           *sect;
+    uint64_t            nbsyms;
+    int                 part_of_lib;
 }                       t_file;
 
 void                    handle_fat64(void *ptr, char *str, int args);
@@ -73,5 +75,6 @@ int                     init(char *name, int argc);
 void                    nm(void *ptr, char *name, int args);
 void                    handle_fat(void *ptr, char *str, int args);
 void                    handle_arch(void *ptr, char * name, int args);
-
- #endif
+void                    print_name(t_file *file);
+int                     in_array(char **array, char *str);
+#endif

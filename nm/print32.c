@@ -57,12 +57,12 @@ char    **ft_sort32(t_file *file)
 {
     char        **array;
     t_symbol32  *sym;
-    int         n;
+    uint32_t         n;
 
     n = 0;
-    array = (char **)malloc(sizeof(char *) * (ft_arraylen32(file->head32) + 1));
+    array = (char **)malloc(sizeof(char *) * (file->nbsyms + 1));
     sym = file->head32;
-    while (sym->next)
+    while (n < file->nbsyms)
     {
         array[n] = ft_strdup(sym->name);
         sym = sym->next;
@@ -72,30 +72,47 @@ char    **ft_sort32(t_file *file)
     return (sort_output(array));
 }
 
-void    print_symbols32(t_file *file)
+void    print_syms32(char ***prev, t_symbol32 *sym, t_section *sect, char *str)
 {
-    t_symbol32 *sym;
-    char        **array;
- 
-    array = ft_sort32(file);
-    file->nb_args > 2 ? ft_putstr(file->filename) : ft_putstr("");
-    file->nb_args > 2 ? ft_putendl(":") : ft_putstr("");
-    while (*array)
+    int b;
+    char tag;
+
+    while (sym->next)
     {
-        sym = file->head32;
-        while (sym->next)
+        b = 0;
+        tag = get_tag32(sym, sect);
+        if (ft_strcmp(sym->name, str) == 0)
         {
-            if (ft_strcmp(sym->name, *array) == 0 && ((get_tag32(sym, file->sect)) != '0'))
+            if (in_array(*prev, get_add32(sym->value, tag)) == 1)
+                b = 1;
+            if (b == 0 || (b == 1 && get_tag32(sym, sect) == 'U'))
             {
-                ft_putstr(get_add32((sym->value), get_tag32(sym, file->sect)));
+                ft_putstr(get_add32(sym->value, tag));
                 ft_putchar(' ');
-                ft_putchar(get_tag32(sym, file->sect));
+                ft_putchar(tag);
                 ft_putchar(' ');
                 ft_putendl(sym->name);
                 break;
             }
-            sym = sym->next;
         }
+        sym = sym->next;
+    }
+}
+
+void    print_symbols32(t_file *file)
+{
+    t_symbol32 *sym;
+    char        **array;
+    char **arr;
+
+    arr = (char**)malloc(sizeof(char *) * (file->nbsyms + 1));
+    arr[0] = NULL;
+    array = ft_sort32(file);
+    print_name(file);
+    while (*array)
+    {
+        sym = file->head32;
+        print_syms32(&arr, sym, file->sect, *array);
         array++;
     }
 }

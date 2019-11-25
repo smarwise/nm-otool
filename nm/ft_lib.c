@@ -1,16 +1,58 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lib.c                                           :+:      :+:    :+:   */
+/*   ft_lib2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smarwise <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/21 13:40:41 by smarwise          #+#    #+#             */
-/*   Updated: 2019/11/21 13:40:44 by smarwise         ###   ########.fr       */
+/*   Created: 2019/11/21 13:41:04 by smarwise          #+#    #+#             */
+/*   Updated: 2019/11/21 13:41:08 by smarwise         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/nm.h"
+
+char **sort_output(char **array)
+{
+    char    *temp;
+    int     n;
+    int k;
+
+    n = 1;
+    while (array[n])
+    {
+        k = n - 1;
+        while (k >= 0)
+        {
+            if (ft_strcmp(array[k], array[n]) > 0)
+            {
+                temp = array[n];
+                array[n] = array[k];
+                array[k] = temp;
+            }
+            else
+                break;
+            n--;
+            k--;
+        }
+        n++;
+    }
+    return (array);
+}
+
+int     check_if_exists(char *str, char **array, int i)
+{
+    int     n;
+
+    n = 0;
+    while (n != i)
+    {
+        if (ft_strcmp(str, array[n]) == 0)
+            return (1);
+        n++;
+    }
+    return (0);
+}
 
 int     print_err(char *str)
 {

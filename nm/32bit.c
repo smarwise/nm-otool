@@ -22,7 +22,8 @@ void        get_info32(struct symtab_command *sym, t_file *file)
     strtable = file->ptr + sym->stroff;
     symbols = (t_symbol32*)malloc(sizeof(t_symbol32));
     file->head32 = symbols;
-    for (file->i = 0; file->i < sym->nsyms; file->i++)
+    file->nbsyms = sym->nsyms;
+    while (file->i < sym->nsyms)
     {
         file->str = strtable + array[file->i].n_un.n_strx;
         if (ft_strlen(file->str) > 0)
@@ -37,6 +38,7 @@ void        get_info32(struct symtab_command *sym, t_file *file)
             symbols->next = (t_symbol32 *)malloc(sizeof(t_symbol32));
             symbols = symbols->next;
         }
+        file->i++;
     }
 }
 
@@ -77,6 +79,8 @@ void    handle_32(t_file *file)
     lc = (void*)file->ptr + sizeof(*header);
     file->sect = (t_section *)malloc(sizeof(t_section));
     file->sect->index = 0;
+    file->head32 = NULL;
+    file->i = 0;
     for (i = 0; i < nmcmds; i++)
     {
         if (lc->cmd == LC_SEGMENT)

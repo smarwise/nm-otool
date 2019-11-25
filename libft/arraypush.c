@@ -14,26 +14,12 @@
 
 char		**arraypush(char **array, char *str)
 {
-	char	**newarr;
 	int		i;
 
 	i = 0;
-	if (array == NULL)
-	{
-		newarr = (char**)malloc(sizeof(char *) * 2);
-		newarr[0] = ft_strdup(str);
-		newarr[1] = NULL;
-	}
-	else
-	{
-		newarr = (char**)malloc(sizeof(char*) * (arraylen(array) + 2));
-		while (array[i])
-		{
-			newarr[i] = ft_strdup(array[i]);
-			i++;
-		}
-		newarr[i] = ft_strdup(str);
-		newarr[++i] = NULL;
-	}
-	return (newarr);
+	while (array[i])
+		i++;
+	array[i] = ft_strdup(str);
+	array[i + 1] = NULL;
+	return (array);
 }
